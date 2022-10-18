@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giải PT bậc 1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .err{
+            font-size: 13px;
+            color: red;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <form id="form" method="post">
+        <label for="a">Nhập a</label>
+        <input type="number" name="a" id="a" />
+        <span class="err err_a"></span>
+        <br/>
+        <label for="b">Nhập b</label>
+        <input type="number" name="b" id="b" />
+        <span class="err err_b"></span>
+        <br/>
+        <button type="submit">Kết quả</button>
+        <div class="ketqua"></div>
+    </form>
+    <script>
+        $(document).ready(function(){
+            $('#form').on('submit',function(e){
+                e.preventDefault();
+                //khai báo
+                var a, b, flag=1,err='';
+
+                //lấy dữ liệu
+                a = $('#a').val();
+                b = $('#b').val();
+
+                //kiểm tra dữ liệu
+                if(a==''){
+                    $('.err_a').text('Vui lòng nhập a');
+                    flag = 0;
+                }else{
+                    $('.err_a').text('');
+                }
+                if(b==''){
+                    $('.err_b').text('Vui lòng nhập b');
+                    flag = 0;
+                }else{
+                    $('.err_b').text('');
+                }
+
+                //Đưa ra kq
+                if(flag == 1){
+                    //gửi ajax
+                    $.ajax({
+                        url:'giai_PTB1',
+                        //Phương thức gửi
+                        type: 'POST',
+                        //dữ liệu gửi đi
+                        data: {'a':a,'b':b},
+                        //kết quả trả về từ server
+                        success: function(results){
+                            console.log(results);
+                            $('.ketqua').html(results);
+                        }
+                    })
+                } 
+            });
+        });
+    </script>
+</body>
+</html>
